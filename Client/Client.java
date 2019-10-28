@@ -4,8 +4,7 @@ import java.rmi.*;
 public class Client{
    public static void main(String argv[]) {
       try {
-		  String name = "//" + argv[1] + "/Server";
-		  ServerInterface si = (ServerInterface) Naming.lookup(name);
+		  ServerInterface si = (ServerInterface) Naming.lookup("Server");
 		  String response = si.echo("hello");
 		  System.out.println(response);
       } catch(Exception e) {
