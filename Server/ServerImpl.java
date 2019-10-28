@@ -44,4 +44,13 @@ public class ServerImpl extends UnicastRemoteObject implements ServerInterface {
          e.printStackTrace();
       }
    }
+   
+   public boolean deleteFile(String filename){
+	   File file = new File(filename);
+	   if(file.delete()){
+		   return true;
+	   } else {
+		   return false;
+	   }
+   }
 }
