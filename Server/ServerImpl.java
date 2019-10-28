@@ -17,9 +17,15 @@ public class ServerImpl extends UnicastRemoteObject implements ServerInterface {
    public byte[] downloadFile(String filename){
 	  
       try {
-         File file = new File(filename);
+		 // files directory
+		 File directory = new File("files");
+		 
+		 // requested file
+         File file = new File(directory, filename);
+		 
+		 // read from the file
          byte buffer[] = new byte[(int)file.length()];
-         BufferedInputStream input = new BufferedInputStream(new FileInputStream(filename));
+         BufferedInputStream input = new BufferedInputStream(new FileInputStream(file));
          input.read(buffer,0,buffer.length);
          input.close();
          return(buffer);
@@ -32,9 +38,17 @@ public class ServerImpl extends UnicastRemoteObject implements ServerInterface {
    
    public void uploadFile(String filename, byte[] upFile){
       try {
-         File file = new File(filename);
-		 BufferedOutputStream output = new
-		   BufferedOutputStream(new FileOutputStream(file.getName()));
+         
+		 // make sure files directory exists
+		 File directory = new File("files");
+		 directory.mkdirs();
+					  
+		 // create the file
+		 File file = new File(directory, filename);
+		 file.createNewFile();
+		 
+		 // write to the file
+		 BufferedOutputStream output = new BufferedOutputStream(new FileOutputStream(file));
 		 output.write(upFile,0,upFile.length);
 		 output.flush();
 		 output.close();
@@ -46,7 +60,13 @@ public class ServerImpl extends UnicastRemoteObject implements ServerInterface {
    }
    
    public boolean deleteFile(String filename){
-	   File file = new File(filename);
+	   // make sure files directory exists
+	   File directory = new File("files");
+	   directory.mkdirs();
+					  
+	   // file to be deleted
+	   File file = new File(directory, filename);
+	   
 	   if(file.delete()){
 		   return true;
 	   } else {
@@ -56,7 +76,14 @@ public class ServerImpl extends UnicastRemoteObject implements ServerInterface {
    
    public void writeFile(String filename, String line){
 	   try{
-		   FileWriter writer = new FileWriter(filename,true); //true will make the writer append
+		   // make sure files directory exists
+	       File directory = new File("files");
+	       directory.mkdirs();
+					  
+	       // file to be written
+	       File file = new File(directory, filename);
+		   
+		   FileWriter writer = new FileWriter(file,true); //true will make the writer append
            writer.write(line + "\n");
            writer.close();
 	   } catch(IOException e){
