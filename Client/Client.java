@@ -41,7 +41,14 @@ public class Client{
 					  in.close();
 					  si.uploadFile(filename,buffer);
 					  System.out.println("File sent.");
+				} else if (command.equalsIgnoreCase("delete")){
+					boolean deleted = si.deleteFile(filename);
+					if (deleted){
+						System.out.println("File deleted.");
+					} else {
+						System.out.println("File did not exist.");
 					}
+				}
 			  }
 		  }
       } catch(Exception e) {
