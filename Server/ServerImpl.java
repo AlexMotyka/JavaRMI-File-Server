@@ -10,4 +10,8 @@ public class ServerImpl extends UnicastRemoteObject implements ServerInterface {
       super();
       name = s;
    }
+   
+   public String echo(String input) {
+	   return input;
+   }
 }
