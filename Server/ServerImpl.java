@@ -29,4 +29,19 @@ public class ServerImpl extends UnicastRemoteObject implements ServerInterface {
          return(null);
       }
    }
+   
+   public void uploadFile(String filename, byte[] upFile){
+      try {
+         File file = new File(filename);
+		 BufferedOutputStream output = new
+		   BufferedOutputStream(new FileOutputStream(file.getName()));
+		 output.write(upFile,0,upFile.length);
+		 output.flush();
+		 output.close();
+		 System.out.println("File uploaded to server succesfully");
+      } catch(Exception e){
+         System.out.println("ServerImpl: "+e.getMessage());
+         e.printStackTrace();
+      }
+   }
 }
