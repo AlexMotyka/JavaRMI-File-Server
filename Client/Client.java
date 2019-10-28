@@ -27,8 +27,16 @@ public class Client{
 				  if (command.equalsIgnoreCase("download")){
 					  // create a file and write to it
 					  byte[] filedata = si.downloadFile(filename);
-					  File file = new File(filename);
-					  BufferedOutputStream output = new BufferedOutputStream(new FileOutputStream(file.getName()));
+					  // make sure files directory exists
+					  File directory = new File("files");
+					  directory.mkdirs();
+					  
+					  // create the file
+					  File file = new File(directory, filename);
+					  file.createNewFile();
+					  
+					  //write the download contents to the file
+					  BufferedOutputStream output = new BufferedOutputStream(new FileOutputStream(file));
 					  output.write(filedata,0,filedata.length);
 					  output.flush();
 					  output.close();
