@@ -20,8 +20,9 @@ public class Client{
 				  // collect tokens
 				  String command = tokens[0];
 				  String filename = tokens[1];
+				  String aux = "";
 				  if (tokens.length >= 3){
-					  String aux = tokens[2];
+					  aux = tokens[2];
 				  }
 				  if (command.equalsIgnoreCase("download")){
 					  // create a file and write to it
@@ -48,6 +49,8 @@ public class Client{
 					} else {
 						System.out.println("File did not exist.");
 					}
+				} else if (command.equalsIgnoreCase("write")){
+					si.writeFile(filename,aux);
 				}
 			  }
 		  }

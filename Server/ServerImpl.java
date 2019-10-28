@@ -53,4 +53,14 @@ public class ServerImpl extends UnicastRemoteObject implements ServerInterface {
 		   return false;
 	   }
    }
+   
+   public void writeFile(String filename, String line){
+	   try{
+		   FileWriter writer = new FileWriter(filename,true); //true will make the writer append
+           writer.write(line + "\n");
+           writer.close();
+	   } catch(IOException e){
+		   System.out.println(e);
+	   }
+   }
 }
