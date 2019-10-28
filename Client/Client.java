@@ -32,7 +32,16 @@ public class Client{
 					  output.flush();
 					  output.close();
 					  System.out.println("File downloaded succesfully"); 
-				}
+				} else if(command.equals("upload")){
+					  System.out.println("Sending file...");
+					  File file = new File(filename);
+					  byte buffer[] = new byte[(int)file.length()];
+					  BufferedInputStream in = new BufferedInputStream(new FileInputStream(filename));
+					  in.read(buffer,0,buffer.length);
+					  in.close();
+					  si.uploadFile(filename,buffer);
+					  System.out.println("File sent.");
+					}
 			  }
 		  }
       } catch(Exception e) {
