@@ -8,10 +8,32 @@ public class Client{
 		  ServerInterface si = (ServerInterface) Naming.lookup("Server");
 		  Scanner userIn = new Scanner(System.in);
 		  while(true){
-			  System.out.println("Enter a string: ");
+			  System.out.println("Enter a command: ");
 			  String input = userIn.nextLine();
-			  String response = si.echo(input);
-			  System.out.println(response);
+			  
+			  // split user input to determine what to call
+			  String[] tokens = input.split(" ");
+			  if (tokens.length<2){
+				  System.out.println("Proper usage: java Client [command] [filename] [filename/string]");
+				  System.exit(0);
+			  } else {
+				  // collect tokens
+				  String command = tokens[0];
+				  String filename = tokens[1];
+				  if (tokens.length >= 3){
+					  String aux = tokens[2];
+				  }
+				  if (command.equalsIgnoreCase("download")){
+					  // create a file and write to it
+					  byte[] filedata = si.downloadFile(filename);
+					  File file = new File(filename);
+					  BufferedOutputStream output = new BufferedOutputStream(new FileOutputStream(file.getName()));
+					  output.write(filedata,0,filedata.length);
+					  output.flush();
+					  output.close();
+					  System.out.println("File downloaded succesfully"); 
+				}
+			  }
 		  }
       } catch(Exception e) {
          System.err.println("Server exception: "+ e.getMessage());
