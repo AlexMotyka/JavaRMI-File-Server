@@ -2,11 +2,11 @@ import java.io.*;
 import java.rmi.*;
 import java.rmi.server.UnicastRemoteObject;
 
-public class Impl extends UnicastRemoteObject implements Interface {
+public class ServerImpl extends UnicastRemoteObject implements ServerInterface {
 
    private String name;
 
-   public Impl(String s) throws RemoteException{
+   public ServerImpl(String s) throws RemoteException{
       super();
       name = s;
    }

@@ -4,7 +4,7 @@ import java.rmi.*;
 public class Server {
    public static void main(String argv[]) {
       try {
-         Interface inter = new Impl("Server");
+         ServerInterface inter = new ServerImpl("Server");
          Naming.rebind("//127.0.0.1/Server", inter);
 		 System.err.println("Server is ready!");
       } catch(Exception e) {
