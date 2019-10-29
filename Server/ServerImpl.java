@@ -1,3 +1,10 @@
+/* written by Alex Motyka
+This class implements the server functionality. The services it provides are 
+file download, file upload, file deletion, list files, and write files.
+
+In order for the client to access the server functionalities the client
+must be authenticated by providing the correct password.
+*/
 import java.io.*;
 import java.util.ArrayList;
 import java.rmi.*;
@@ -11,13 +18,7 @@ public class ServerImpl extends UnicastRemoteObject implements ServerInterface {
       super();
       name = s;
    }
-   public boolean authenticate(String password){
-	   if(password.equals("rmiisawesome")){
-		   return true;
-	   } else {
-		   return false;
-	   }
-   }
+   
    public byte[] downloadFile(String filename){
 	  
       try {
@@ -33,12 +34,13 @@ public class ServerImpl extends UnicastRemoteObject implements ServerInterface {
 			 BufferedInputStream input = new BufferedInputStream(new FileInputStream(file));
 			 input.read(buffer,0,buffer.length);
 			 input.close();
+			 
 			 return(buffer);
 		 } else {
 			 byte[] buffer = new byte[0];
+			 
 			 return(buffer);
 		 }
-         // return(buffer);
       } catch(Exception e){
          System.out.println("ServerImpl: "+e.getMessage());
          e.printStackTrace();
@@ -79,9 +81,11 @@ public class ServerImpl extends UnicastRemoteObject implements ServerInterface {
 	   
 	   if(file.delete()){
 		   System.out.println("File deleted");
+		   
 		   return true;
 	   } else {
 		   System.out.println("File did not exist");
+		   
 		   return false;
 	   }
    }
@@ -111,11 +115,21 @@ public class ServerImpl extends UnicastRemoteObject implements ServerInterface {
 	   File directory = new File("files");
 	   directory.mkdirs();
 	   
+	   // get this list of files
 	   File[] listOfFiles = directory.listFiles();
-
+		
+		// add the file names to the fileList
 	   for (int i = 0; i < listOfFiles.length; i++) {
 		   fileList.add(listOfFiles[i].getName());
 		}
 		return fileList;
+   }
+   
+   public boolean authenticate(String password){
+	   if(password.equals("rmiisawesome")){
+		   return true;
+	   } else {
+		   return false;
+	   }
    }
 }

@@ -1,7 +1,12 @@
 /* Written by Alex Motyka
 The Client class is responsible for reading user input and determing
-which function it should call. The function are stored remotely in the
-ServerImpl class and they are accessed using Java RMI */
+which function it should call. The functions are stored remotely in the
+ServerImpl class and they are accessed using Java RMI 
+
+This class reads console input from the client, determines if the client input is
+valid, then it either executes the command succesfully or gives a warning as to why
+the command was not carried out(incorrect command, non-existent file, insufficient args etc.)
+*/
 
 import java.io.*; 
 import java.rmi.*;
@@ -16,6 +21,8 @@ public class Client{
 		  // set up our interface
 		  ServerInterface si = (ServerInterface) Naming.lookup("Server");
 		  Scanner userIn = new Scanner(System.in);
+		  
+		  // Do not proceed until authenticated by the server
 		  while(!authenticated){
 			  System.out.println("Enter the password: ");
 			  String password = userIn.nextLine();
@@ -31,26 +38,33 @@ public class Client{
 		  System.out.println("[write] [filename] [\"string\"]");
 		  System.out.println("[ls]");
 		  
+		  // Read user input until they disconnect from the server
 		  while(true){
 			  System.out.println("Enter a command: ");
 			  String input = userIn.nextLine();
 			  
-			  // split user input to determine what to call
+			  // split user input to determine what to method to call
 			  String[] tokens = input.split(" ");
+			  
 			  if (tokens.length<1){
 				  System.out.println("Proper usage: java Client [command] [filename] [filename/string]");
 				  System.exit(0);
 			  } else {
 				  // collect tokens
+				  // grab the command
 				  String command = tokens[0];
 				  String filename = "";
 				  if (tokens.length >= 2){
+					  // grab the filename
 					  filename = tokens[1];
 				  }
-				  String aux = "";
+				  String userString = "";
 				  if (tokens.length >= 3){
-					  aux = tokens[2];
+					  // grab the user string
+					  userString = tokens[2];
 				  }
+				  
+				  // determine which remote method should be invoked
 				  if (command.equalsIgnoreCase("download")){
 					  if(filename.equalsIgnoreCase("")){
 						  System.out.println("You must provide a filename.");
@@ -93,6 +107,7 @@ public class Client{
 							BufferedInputStream in = new BufferedInputStream(new FileInputStream(file));
 							in.read(buffer,0,buffer.length);
 							in.close();
+							
 							si.uploadFile(filename,buffer);
 							System.out.println("File sent.");
 						} else {
@@ -114,7 +129,7 @@ public class Client{
 					}
 					
 				} else if (command.equalsIgnoreCase("write")){
-					si.writeFile(filename,aux);
+					si.writeFile(filename,userString);
 				} else if (command.equalsIgnoreCase("ls")){
 					ArrayList<String> fileList = si.listFiles();
 					System.out.println(fileList);
