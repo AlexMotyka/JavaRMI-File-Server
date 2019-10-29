@@ -1,6 +1,7 @@
 import java.io.*; 
 import java.rmi.*;
 import java.util.Scanner;
+import java.util.ArrayList;
 
 public class Client{
    public static void main(String argv[]) {
@@ -65,6 +66,9 @@ public class Client{
 					}
 				} else if (command.equalsIgnoreCase("write")){
 					si.writeFile(filename,aux);
+				} else if (command.equalsIgnoreCase("ls")){
+					ArrayList<String> fileList = si.listFiles();
+					System.out.println(fileList);
 				}
 			  }
 		  }

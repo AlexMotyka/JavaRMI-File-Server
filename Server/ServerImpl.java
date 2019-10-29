@@ -1,4 +1,5 @@
 import java.io.*;
+import java.util.ArrayList;
 import java.rmi.*;
 import java.rmi.server.UnicastRemoteObject;
 
@@ -89,5 +90,20 @@ public class ServerImpl extends UnicastRemoteObject implements ServerInterface {
 	   } catch(IOException e){
 		   System.out.println(e);
 	   }
+   }
+   
+   public ArrayList<String> listFiles(){
+	   ArrayList<String> fileList = new ArrayList<String>();
+	   
+	   // make sure files directory exists
+	   File directory = new File("files");
+	   directory.mkdirs();
+	   
+	   File[] listOfFiles = directory.listFiles();
+
+	   for (int i = 0; i < listOfFiles.length; i++) {
+		   fileList.add(listOfFiles[i].getName());
+		}
+		return fileList;
    }
 }
