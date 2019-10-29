@@ -1,6 +1,6 @@
 "# assignment2fall2019-AlexMotyka" 
 
-**File Server**
+##File Server##
 
 This is file server with two components: the client and server.
 
