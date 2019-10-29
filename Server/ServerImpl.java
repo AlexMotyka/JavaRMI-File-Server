@@ -11,7 +11,13 @@ public class ServerImpl extends UnicastRemoteObject implements ServerInterface {
       super();
       name = s;
    }
-   
+   public boolean authenticate(String password){
+	   if(password.equals("rmiisawesome")){
+		   return true;
+	   } else {
+		   return false;
+	   }
+   }
    public byte[] downloadFile(String filename){
 	  
       try {

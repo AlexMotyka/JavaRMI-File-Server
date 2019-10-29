@@ -8,4 +8,5 @@ public interface ServerInterface extends Remote {
 	public boolean deleteFile(String filename) throws RemoteException;
 	public void writeFile(String filename, String line) throws RemoteException;
 	public ArrayList<String> listFiles() throws RemoteException;
+	public boolean authenticate(String password) throws RemoteException;
 }

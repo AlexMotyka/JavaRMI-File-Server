@@ -11,10 +11,20 @@ import java.util.ArrayList;
 public class Client{
    public static void main(String argv[]) {
       try {
+		  boolean authenticated = false;
+		  
 		  // set up our interface
 		  ServerInterface si = (ServerInterface) Naming.lookup("Server");
 		  Scanner userIn = new Scanner(System.in);
-		  System.out.println("Listed are the proper usages: ");
+		  while(!authenticated){
+			  System.out.println("Enter the password: ");
+			  String password = userIn.nextLine();
+			  authenticated = si.authenticate(password);
+			  if (authenticated == false){
+				  System.out.println("Incorrect password. Try again.");
+			  }
+		  }
+		  System.out.println("Acces granted. Listed are the proper usages: ");
 		  System.out.println("[download] [filename]");
 		  System.out.println("[upload] [filename]");
 		  System.out.println("[delete] [filename]");
