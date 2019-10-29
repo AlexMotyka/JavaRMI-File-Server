@@ -24,12 +24,18 @@ public class ServerImpl extends UnicastRemoteObject implements ServerInterface {
 		 // requested file
          File file = new File(directory, filename);
 		 
-		 // read from the file
-         byte buffer[] = new byte[(int)file.length()];
-         BufferedInputStream input = new BufferedInputStream(new FileInputStream(file));
-         input.read(buffer,0,buffer.length);
-         input.close();
-         return(buffer);
+		 if (file.exists()){
+			 // read from the file
+			 byte buffer[] = new byte[(int)file.length()];
+			 BufferedInputStream input = new BufferedInputStream(new FileInputStream(file));
+			 input.read(buffer,0,buffer.length);
+			 input.close();
+			 return(buffer);
+		 } else {
+			 byte[] buffer = new byte[0];
+			 return(buffer);
+		 }
+         // return(buffer);
       } catch(Exception e){
          System.out.println("ServerImpl: "+e.getMessage());
          e.printStackTrace();
@@ -69,8 +75,10 @@ public class ServerImpl extends UnicastRemoteObject implements ServerInterface {
 	   File file = new File(directory, filename);
 	   
 	   if(file.delete()){
+		   System.out.println("File deleted");
 		   return true;
 	   } else {
+		   System.out.println("File did not exist");
 		   return false;
 	   }
    }
@@ -85,8 +93,9 @@ public class ServerImpl extends UnicastRemoteObject implements ServerInterface {
 	       File file = new File(directory, filename);
 		   
 		   FileWriter writer = new FileWriter(file,true); //true will make the writer append
-           writer.write(line + "\n");
+           writer.write(" "+line + "\n");
            writer.close();
+		   System.out.println("Wrote to file.");
 	   } catch(IOException e){
 		   System.out.println(e);
 	   }
