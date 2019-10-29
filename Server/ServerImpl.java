@@ -12,9 +12,6 @@ public class ServerImpl extends UnicastRemoteObject implements ServerInterface {
       name = s;
    }
    
-   public String echo(String input) {
-	   return input;
-   }
    public byte[] downloadFile(String filename){
 	  
       try {
