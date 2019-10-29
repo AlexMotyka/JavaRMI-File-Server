@@ -71,20 +71,24 @@ public class Client{
 					if(filename.equalsIgnoreCase("")){
 						System.out.println("You must provide a filename.");
 					} else {
-						System.out.println("Sending file...");
 						// files directory
 						File directory = new File("files");
 		 
 						// requested file
 						File file = new File(directory, filename);
-					  
-						// read from the file
-						byte buffer[] = new byte[(int)file.length()];
-						BufferedInputStream in = new BufferedInputStream(new FileInputStream(file));
-						in.read(buffer,0,buffer.length);
-						in.close();
-						si.uploadFile(filename,buffer);
-						System.out.println("File sent.");
+						if(file.exists()){
+							System.out.println("Sending file...");
+							// read from the file
+							byte buffer[] = new byte[(int)file.length()];
+							BufferedInputStream in = new BufferedInputStream(new FileInputStream(file));
+							in.read(buffer,0,buffer.length);
+							in.close();
+							si.uploadFile(filename,buffer);
+							System.out.println("File sent.");
+						} else {
+							System.out.println("File does not exist.");
+						}
+						
 					}
 					  
 				} else if (command.equalsIgnoreCase("delete")){
