@@ -2,7 +2,7 @@
 
 ## File Server(Google Drive 2.0)
 
-This is file server with two components: the client and server.
+This is file server with two components: the client and server. The server hosts files and the client may interact with them after being authenticated.
 
 The server consists of a server class, implemenation class, interface class and makes use of Java RMI to makes it's methods available remotely. The server has the following functionalities:
 
